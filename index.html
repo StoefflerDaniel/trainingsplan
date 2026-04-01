@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<title>Hantel-Trainingsplan (6x pro Woche)</title>
+<title>Hantel-Trainingsplan</title>
 <style>
     :root {
         --bg: #121212;
@@ -12,7 +11,7 @@
         --text: #ffffff;
         --text-muted: #a0a0a0;
         --primary: #bb86fc;
-        --secondary: #03dac6;
+        --secondary: #03_dac6;
         --danger: #cf6679;
         --gk1: #ff5252;
         --gk2: #ffb142;
@@ -24,39 +23,140 @@
         background-color: var(--bg);
         color: var(--text);
         margin: 0;
-        padding: 20px;
+        padding: 20px 20px 80px 20px;
         line-height: 1.6;
     }
-    h1, h2, h3 {
-        text-align: center;
-        color: var(--primary);
-    }
-    .schedule {
+    h1, h2, h3 { text-align: center; color: var(--text); }
+    h1 span { color: var(--primary); }
+    
+    .week-plan {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        max-width: 1000px;
+        margin: 0 auto 30px auto;
         background: var(--card-bg);
         padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 30px;
-        text-align: center;
+        border-radius: 12px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        overflow-x: auto;
     }
-    .routine-container {
+    .day-badge {
+        flex: 1;
+        min-width: 60px;
+        text-align: center;
+        padding: 10px 5px;
+        border-radius: 8px;
+        background: #2a2a2a;
+        color: var(--text-muted);
         display: flex;
         flex-direction: column;
-        gap: 40px;
+        gap: 5px;
+    }
+    .day-badge.active {
+        background: var(--primary);
+        color: #000;
+        transform: scale(1.05);
+        font-weight: bold;
+        box-shadow: 0 0 10px rgba(187,134,252,0.4);
+    }
+    .day-badge span { font-size: 0.8rem; text-transform: uppercase; }
+    .day-badge strong { font-size: 1.2rem; }
+
+    .weight-settings {
+        max-width: 1000px;
+        margin: 0 auto 20px auto;
+        background: var(--card-bg);
+        padding: 15px;
+        border-radius: 12px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .weight-input-group { text-align: center; }
+    .weight-input-group label { display: block; font-size: 0.8rem; margin-bottom: 5px; font-weight: bold; }
+    .weight-input-group input {
+        width: 60px;
+        background: #333;
+        border: 1px solid #444;
+        color: white;
+        padding: 5px;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+    .btn-action {
+        display: block;
+        margin: 0 auto 20px auto;
+        background: var(--primary);
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        text-align: center;
+    }
+    
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+    
+    .dash-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
         max-width: 1000px;
         margin: 0 auto;
     }
-    .routine {
+    .dash-card {
         background: var(--card-bg);
+        padding: 25px;
         border-radius: 12px;
-        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.2s, border 0.2s;
+        border: 2px solid transparent;
         box-shadow: 0 6px 12px rgba(0,0,0,0.5);
     }
-    .routine h2 {
-        border-bottom: 2px solid var(--primary);
-        padding-bottom: 10px;
-        margin-top: 0;
+    .dash-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+    .dash-card h2 { margin-top: 0; color: var(--primary); }
+    
+    .progress-container { margin-top: 15px; }
+    .progress-text { font-size: 0.9rem; margin-bottom: 5px; color: var(--text-muted); }
+    .progress-bar { background: #333; height: 8px; border-radius: 4px; overflow: hidden; }
+    .progress-fill { background: var(--secondary); height: 100%; width: 0%; transition: width 0.3s; }
+
+    .history-section {
+        max-width: 1000px;
+        margin: 40px auto 0 auto;
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 12px;
     }
+    .history-scroll {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 10px;
+        margin-bottom: 20px;
+    }
+    .history-scroll::-webkit-scrollbar { width: 8px; }
+    .history-scroll::-webkit-scrollbar-track { background: #1e1e1e; }
+    .history-scroll::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+    .history-entry { border-bottom: 1px solid #333; padding: 15px 0; }
+    .history-entry:last-child { border-bottom: none; }
+    .history-date { font-weight: bold; color: var(--secondary); margin-bottom: 5px; font-size: 1.1rem; }
+    .history-details { color: var(--text-muted); font-size: 0.95rem; margin: 0; padding-left: 20px; }
+
+    .btn-danger-outline {
+        display: block; width: 100%; background: transparent; color: var(--danger); border: 1px solid var(--danger);
+        padding: 10px; border-radius: 6px; cursor: pointer; text-align: center; font-size: 0.9rem; opacity: 0.7; transition: opacity 0.2s;
+    }
+    .btn-danger-outline:hover { opacity: 1; background: rgba(207, 102, 121, 0.1); }
+
+    .routine-wrapper { display: none; max-width: 1000px; margin: 0 auto; }
+    .routine-wrapper.active { display: block; }
+    
     .grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -65,390 +165,463 @@
     }
     .card {
         background: #2a2a2a;
-        padding: 15px;
-        border-radius: 8px;
+        padding: 20px;
+        border-radius: 10px;
         border-left: 4px solid var(--primary);
         display: flex;
         flex-direction: column;
+        transition: opacity 0.3s;
     }
-    .badge {
-        display: inline-block;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #000;
-        width: max-content;
-    }
+    .card.done { opacity: 0.5; border-left-color: var(--secondary); }
+    .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; color: #000; text-transform: uppercase; letter-spacing: 0.5px; }
     .b-gk1 { background-color: var(--gk1); }
     .b-gk2 { background-color: var(--gk2); }
     .b-gk3 { background-color: var(--gk3); }
     .b-bw { background-color: var(--bw); color: #fff; }
-    .card h3 { margin: 0 0 10px 0; color: #fff; text-align: left; font-size: 1.1rem; }
-    .card p { margin: 5px 0; font-size: 0.9rem; color: var(--text-muted); flex-grow: 1; }
-    .btn {
-        margin-top: 15px;
-        padding: 10px;
-        background: var(--primary);
-        color: #000;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background 0.3s;
-    }
-    .btn:hover { background: #9d4edd; }
+    
+    .controls-wrapper { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: #1e1e1e; padding: 10px; border-radius: 8px; }
+    .controls-label { font-size: 0.9rem; color: var(--text-muted); }
+    .set-controls { display: flex; align-items: center; gap: 12px; }
+    .set-controls button { background: #333; color: #fff; border: 1px solid #444; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; font-size: 1.2rem; transition: background 0.2s; }
+    .set-controls button:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+    .set-controls span { font-weight: bold; font-size: 1.2rem; min-width: 24px; text-align: center; color: var(--secondary); }
+
+    .card h3 { margin: 0 0 5px 0; color: #fff; text-align: left; font-size: 1.2rem; }
+    .card p { margin: 0 0 15px 0; font-size: 0.9rem; color: var(--text-muted); flex-grow: 1; }
+    .btn { padding: 10px; background: #333; color: #fff; border: 1px solid #444; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
+    .btn:hover { background: #444; }
+    
     .modal {
-        display: none;
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.8);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        padding: 20px;
-        box-sizing: border-box;
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; padding: 20px; box-sizing: border-box;
     }
-    .modal-content {
-        background: var(--card-bg);
-        padding: 20px;
-        border-radius: 8px;
-        max-width: 600px;
-        width: 100%;
-        position: relative;
+    .modal-content { background: var(--card-bg); padding: 20px; border-radius: 8px; max-width: 600px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto; }
+    .close { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: var(--danger); }
+    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 15px; border-radius: 8px; }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    
+    #timer-bar {
+        position: fixed; bottom: 0; left: 0; width: 100%; background: #1a1a1a; padding: 15px; display: flex;
+        justify-content: center; gap: 10px; box-shadow: 0 -4px 15px rgba(0,0,0,0.5); z-index: 500; box-sizing: border-box; align-items: center; border-top: 1px solid #333;
     }
-    .close {
-        position: absolute;
-        top: 10px; right: 15px;
-        font-size: 24px;
-        cursor: pointer;
-        color: var(--danger);
-    }
-    .video-container {
-        position: relative;
-        padding-bottom: 56.25%;
-        height: 0;
-        overflow: hidden;
-        margin-bottom: 15px;
-        border-radius: 8px;
-    }
-    .video-container iframe {
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-    }
-    .yt-link {
-        color: var(--secondary);
-        display: block;
-        margin-bottom: 15px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 0.9rem;
-    }
-    .yt-link:hover { text-decoration: underline; }
+    .t-btn { background: #2a2a2a; color: #fff; border: 1px solid #444; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .t-btn.active { background: var(--secondary); color: #000; border-color: var(--secondary); }
+    #time-display { font-size: 1.4rem; font-weight: bold; color: var(--primary); min-width: 70px; text-align: center; font-family: monospace; }
 </style>
 </head>
 <body>
 
-<h1>Dein Hantel-Trainingsplan</h1>
+<h1>Dein <span>Trainingsplan</span></h1>
 
-<div class="schedule">
-    <strong>Wochenplan:</strong> Mo: Routine A | Di: Routine B | Mi: Routine C | Do: Routine A | Fr: Routine B | Sa: Routine C | So: Pause
+<div class="week-plan">
+    <div class="day-badge" id="day-1"><span>Mo</span><strong>A</strong></div>
+    <div class="day-badge" id="day-2"><span>Di</span><strong>B</strong></div>
+    <div class="day-badge" id="day-3"><span>Mi</span><strong>C</strong></div>
+    <div class="day-badge" id="day-4"><span>Do</span><strong>A</strong></div>
+    <div class="day-badge" id="day-5"><span>Fr</span><strong>B</strong></div>
+    <div class="day-badge" id="day-6"><span>Sa</span><strong>C</strong></div>
+    <div class="day-badge" id="day-0"><span>So</span><strong>-</strong></div>
 </div>
 
-<div class="routine-container">
-    <div class="routine">
-        <h2>Routine A (Pflicht) - Push (Brust, Schultern, Trizeps)</h2>
-        <p style="text-align:center; color: var(--text-muted);">Gewichte werden nur 2x gewechselt: Schwer -> Mittel -> Leicht</p>
+<div id="view-dashboard" class="view-section active">
+    <div class="weight-settings">
+        <div class="weight-input-group">
+            <label style="color: var(--gk1);">GK 1 (Schwer)</label>
+            <input type="number" id="input-gk1" placeholder="kg" onchange="saveWeights()"> <span style="color: var(--text-muted);">kg</span>
+        </div>
+        <div class="weight-input-group">
+            <label style="color: var(--gk2);">GK 2 (Mittel)</label>
+            <input type="number" id="input-gk2" placeholder="kg" onchange="saveWeights()"> <span style="color: var(--text-muted);">kg</span>
+        </div>
+        <div class="weight-input-group">
+            <label style="color: var(--gk3);">GK 3 (Leicht)</label>
+            <input type="number" id="input-gk3" placeholder="kg" onchange="saveWeights()"> <span style="color: var(--text-muted);">kg</span>
+        </div>
+    </div>
+
+    <div class="dash-cards">
+        <div class="dash-card" onclick="openRoutine('A')">
+            <h2>Routine A</h2>
+            <p style="color:var(--text-muted); margin:0;">Brust, Schultern, Trizeps</p>
+            <div class="progress-container">
+                <div class="progress-text" id="pt-A">0 / 4 Übungen absolviert</div>
+                <div class="progress-bar"><div class="progress-fill" id="pb-A"></div></div>
+            </div>
+        </div>
+        <div class="dash-card" onclick="openRoutine('B')">
+            <h2>Routine B</h2>
+            <p style="color:var(--text-muted); margin:0;">Rücken, Beine, Bizeps</p>
+            <div class="progress-container">
+                <div class="progress-text" id="pt-B">0 / 5 Übungen absolviert</div>
+                <div class="progress-bar"><div class="progress-fill" id="pb-B"></div></div>
+            </div>
+        </div>
+        <div class="dash-card" onclick="openRoutine('C')">
+            <h2>Routine C</h2>
+            <p style="color:var(--text-muted); margin:0;">Bauch, Waden, Unterarme</p>
+            <div class="progress-container">
+                <div class="progress-text" id="pt-C">0 / 4 Übungen absolviert</div>
+                <div class="progress-bar"><div class="progress-fill" id="pb-C"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="history-section">
+        <h2 style="margin-top:0; color:var(--text);">Dein Tagebuch</h2>
+        <div class="history-scroll" id="history-list"></div>
+        <button class="btn-danger-outline" onclick="resetProgress()">Gesamten Verlauf endgültig löschen</button>
+    </div>
+</div>
+
+<div id="view-routine" class="view-section">
+    <button class="btn-action" onclick="showDashboard()">← Zurück zur Übersicht</button>
+    
+    <div id="routine-A" class="routine-wrapper">
+        <h2 style="background:var(--card-bg); border-radius:12px; padding:15px; box-shadow:0 4px 6px rgba(0,0,0,0.3); margin-top:0;">Routine A - Push</h2>
         <div class="grid">
-            <div class="card">
-                <span class="badge b-gk1">Gewichtsklasse 1</span>
-                <h3>1. Kurzhantel Floor Press</h3>
-                <p>Muskeln: Brust, Trizeps</p>
-                <p>Sätze: 3-4 | Wdh: 8-12</p>
-                <button class="btn" onclick="openModal('modal-floorpress')">Details & Video</button>
+            <div class="card" id="card-floorpress">
+                <div class="header-row"><span class="badge b-gk1">GK 1</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-floorpress')">Details</button></div>
+                <h3>1. Floor Press</h3><p>Ziel: 3-4 Sätze | 6-10 Wdh.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('floorpress','A',-1)">-</button><span id="set-floorpress">0</span><button onclick="updateSets('floorpress','A',1)">+</button></div>
+                </div>
             </div>
-            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
-                <span class="badge b-gk2">Gewichtsklasse 2</span>
-                <h3>2. Schulterdrücken (auf Bett)</h3>
-                <p>Muskeln: Vordere/Seitliche Schulter</p>
-                <p>Sätze: 3 | Wdh: 8-12</p>
-                <button class="btn" onclick="openModal('modal-shoulder')">Details & Video</button>
+            <div class="card" id="card-shoulder">
+                <div class="header-row"><span class="badge b-gk2">GK 2</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-shoulder')">Details</button></div>
+                <h3>2. Schulterdrücken</h3><p>Ziel: 3 Sätze | 8-12 Wdh.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('shoulder','A',-1)">-</button><span id="set-shoulder">0</span><button onclick="updateSets('shoulder','A',1)">+</button></div>
+                </div>
             </div>
-            <div class="card">
-                <span class="badge b-gk2">Gewichtsklasse 2</span>
-                <h3>3. Trizeps-Stirndrücken (Matte)</h3>
-                <p>Muskeln: Trizeps</p>
-                <p>Sätze: 3 | Wdh: 10-15</p>
-                <button class="btn" onclick="openModal('modal-skull')">Details & Video</button>
+            <div class="card" id="card-skull">
+                <div class="header-row"><span class="badge b-gk2">GK 2</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-skull')">Details</button></div>
+                <h3>3. Stirndrücken</h3><p>Ziel: 3 Sätze | 10-15 Wdh.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('skull','A',-1)">-</button><span id="set-skull">0</span><button onclick="updateSets('skull','A',1)">+</button></div>
+                </div>
             </div>
-            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
-                <span class="badge b-gk3">Gewichtsklasse 3</span>
-                <h3>4. Seitheben (Stehend)</h3>
-                <p>Muskeln: Seitliche Schulter</p>
-                <p>Sätze: 3-4 | Wdh: 12-15</p>
-                <button class="btn" onclick="openModal('modal-lateral')">Details & Video</button>
+            <div class="card" id="card-lateral">
+                <div class="header-row"><span class="badge b-gk3">GK 3</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-lateral')">Details</button></div>
+                <h3>4. Seitheben</h3><p>Ziel: 3-4 Sätze | 12-15 Wdh.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('lateral','A',-1)">-</button><span id="set-lateral">0</span><button onclick="updateSets('lateral','A',1)">+</button></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="routine">
-        <h2>Routine B (Pflicht) - Pull & Beine (Rücken, Beine, Bizeps)</h2>
-        <p style="text-align:center; color: var(--text-muted);">Gewichte werden nur 1x gewechselt: Schwer -> Mittel</p>
+    <div id="routine-B" class="routine-wrapper">
+        <h2 style="background:var(--card-bg); border-radius:12px; padding:15px; box-shadow:0 4px 6px rgba(0,0,0,0.3); margin-top:0;">Routine B - Pull & Beine</h2>
         <div class="grid">
-            <div class="card">
-                <span class="badge b-gk1">Gewichtsklasse 1</span>
-                <h3>1. Goblet Kniebeugen</h3>
-                <p>Muskeln: Oberschenkel, Po</p>
-                <p>Sätze: 3-4 | Wdh: 8-12</p>
-                <button class="btn" onclick="openModal('modal-goblet')">Details & Video</button>
+            <div class="card" id="card-goblet">
+                <div class="header-row"><span class="badge b-gk1">GK 1</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-goblet')">Details</button></div>
+                <h3>1. Goblet Kniebeugen</h3><p>Ziel: 3-4 Sätze | 6-10 Wdh.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('goblet','B',-1)">-</button><span id="set-goblet">0</span><button onclick="updateSets('goblet','B',1)">+</button></div>
+                </div>
             </div>
-            <div class="card">
-                <span class="badge b-gk1">Gewichtsklasse 1</span>
-                <h3>2. Einarmiges Rudern (Bett)</h3>
-                <p>Muskeln: Breiter Rückenmuskel</p>
-                <p>Sätze: 3-4 | Wdh: 8-12 pro Seite</p>
-                <button class="btn" onclick="openModal('modal-row')">Details & Video</button>
+            <div class="card" id="card-row">
+                <div class="header-row"><span class="badge b-gk1">GK 1</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-row')">Details</button></div>
+                <h3>2. Einarmiges Rudern</h3><p>Ziel: 3-4 Sätze | 6-10 / S.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('row','B',-1)">-</button><span id="set-row">0</span><button onclick="updateSets('row','B',1)">+</button></div>
+                </div>
             </div>
-            <div class="card">
-                <span class="badge b-gk1">Gewichtsklasse 1</span>
-                <h3>3. Rumänisches Kreuzheben</h3>
-                <p>Muskeln: Beinbeuger, Unterer Rücken</p>
-                <p>Sätze: 3 | Wdh: 10-12</p>
-                <button class="btn" onclick="openModal('modal-rdl')">Details & Video</button>
+            <div class="card" id="card-rdl">
+                <div class="header-row"><span class="badge b-gk1">GK 1</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-rdl')">Details</button></div>
+                <h3>3. R. Kreuzheben</h3><p>Ziel: 3 Sätze | 8-12 Wdh.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('rdl','B',-1)">-</button><span id="set-rdl">0</span><button onclick="updateSets('rdl','B',1)">+</button></div>
+                </div>
             </div>
-            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
-                <span class="badge b-gk2">Gewichtsklasse 2</span>
-                <h3>4. Ausfallschritte (Stehend)</h3>
-                <p>Muskeln: Beine gesamt</p>
-                <p>Sätze: 3 | Wdh: 10-12 pro Bein</p>
-                <button class="btn" onclick="openModal('modal-lunges')">Details & Video</button>
+            <div class="card" id="card-lunges">
+                <div class="header-row"><span class="badge b-gk2">GK 2</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-lunges')">Details</button></div>
+                <h3>4. Ausfallschritte</h3><p>Ziel: 3 Sätze | 10-12 / B.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('lunges','B',-1)">-</button><span id="set-lunges">0</span><button onclick="updateSets('lunges','B',1)">+</button></div>
+                </div>
             </div>
-            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
-                <span class="badge b-gk2">Gewichtsklasse 2</span>
-                <h3>5. Kurzhantel Bizepscurls</h3>
-                <p>Muskeln: Bizeps</p>
-                <p>Sätze: 3 | Wdh: 10-15</p>
-                <button class="btn" onclick="openModal('modal-curls')">Details & Video</button>
+            <div class="card" id="card-curls">
+                <div class="header-row"><span class="badge b-gk2">GK 2</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-curls')">Details</button></div>
+                <h3>5. Bizepscurls</h3><p>Ziel: 3 Sätze | 10-15 Wdh.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('curls','B',-1)">-</button><span id="set-curls">0</span><button onclick="updateSets('curls','B',1)">+</button></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="routine">
-        <h2>Routine C (Optional) - Das i-Tüpfelchen (Waden, Bauch, Unterarme)</h2>
-        <p style="text-align:center; color: var(--text-muted);">Gewichte werden nur 1x gewechselt: Schwer -> Mittel</p>
+    <div id="routine-C" class="routine-wrapper">
+        <h2 style="background:var(--card-bg); border-radius:12px; padding:15px; box-shadow:0 4px 6px rgba(0,0,0,0.3); margin-top:0;">Routine C - Core & Extras</h2>
         <div class="grid">
-            <div class="card">
-                <span class="badge b-gk1">Gewichtsklasse 1</span>
-                <h3>1. Wadenheben (Stehend)</h3>
-                <p>Muskeln: Waden</p>
-                <p>Sätze: 4 | Wdh: 15-20</p>
-                <button class="btn" onclick="openModal('modal-calves')">Details & Video</button>
+            <div class="card" id="card-calves">
+                <div class="header-row"><span class="badge b-gk1">GK 1</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-calves')">Details</button></div>
+                <h3>1. Wadenheben</h3><p>Ziel: 4 Sätze | 15-20 Wdh.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('calves','C',-1)">-</button><span id="set-calves">0</span><button onclick="updateSets('calves','C',1)">+</button></div>
+                </div>
             </div>
-            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
-                <span class="badge b-gk2">Gewichtsklasse 2</span>
-                <h3>2. Unterarm-Curls (Bett)</h3>
-                <p>Muskeln: Unterarme</p>
-                <p>Sätze: 3 | Wdh: 15-20</p>
-                <button class="btn" onclick="openModal('modal-forearms')">Details & Video</button>
+            <div class="card" id="card-forearms">
+                <div class="header-row"><span class="badge b-gk2">GK 2</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-forearms')">Details</button></div>
+                <h3>2. Unterarm-Curls</h3><p>Ziel: 3 Sätze | 15-20 Wdh.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('forearms','C',-1)">-</button><span id="set-forearms">0</span><button onclick="updateSets('forearms','C',1)">+</button></div>
+                </div>
             </div>
-            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
-                <span class="badge b-gk2">Gewichtsklasse 2</span>
-                <h3>3. Russian Twist</h3>
-                <p>Muskeln: Seitliche Bauchmuskeln</p>
-                <p>Sätze: 3 | Wdh: 15-20 pro Seite</p>
-                <button class="btn" onclick="openModal('modal-twist')">Details & Video</button>
+            <div class="card" id="card-twist">
+                <div class="header-row"><span class="badge b-gk2">GK 2</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-twist')">Details</button></div>
+                <h3>3. Russian Twist</h3><p>Ziel: 3 Sätze | 15-20 / S.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('twist','C',-1)">-</button><span id="set-twist">0</span><button onclick="updateSets('twist','C',1)">+</button></div>
+                </div>
             </div>
-            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
-                <span class="badge b-bw">Kein Gewicht</span>
-                <h3>4. Crunches (Matte)</h3>
-                <p>Muskeln: Gerade Bauchmuskeln</p>
-                <p>Sätze: 3 | Wdh: Bis Muskelversagen</p>
-                <button class="btn" onclick="openModal('modal-crunches')">Details & Video</button>
+            <div class="card" id="card-crunches">
+                <div class="header-row"><span class="badge b-bw">BW</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-crunches')">Details</button></div>
+                <h3>4. Crunches</h3><p>Ziel: 3 Sätze | Max Wdh.</p>
+                <div class="controls-wrapper">
+                    <span class="controls-label">Sätze:</span>
+                    <div class="set-controls"><button onclick="updateSets('crunches','C',-1)">-</button><span id="set-crunches">0</span><button onclick="updateSets('crunches','C',1)">+</button></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div id="modal-floorpress" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-floorpress')">&times;</span>
-        <h2>Kurzhantel Floor Press</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/Bx4QPVH-J1g" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=Bx4QPVH-J1g" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Lege dich mit dem Rücken auf die Matte. Beine anwinkeln, Füße flach auf den Boden. Hanteln auf Brusthöhe halten. Drücke die Hanteln nach oben, bis die Arme fast gestreckt sind. Kontrolliert ablassen, bis die Trizeps den Boden leicht berühren. Kein Schwung holen.</p>
-    </div>
+<div id="timer-bar">
+    <span id="time-display">00:00</span>
+    <button class="t-btn" onclick="startTimer(60, this)">60s</button>
+    <button class="t-btn" onclick="startTimer(90, this)">90s</button>
+    <button class="t-btn" onclick="startTimer(120, this)">120s</button>
+    <button class="t-btn" onclick="stopTimer()">Stop</button>
 </div>
 
-<div id="modal-shoulder" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-shoulder')">&times;</span>
-        <h2>Schulterdrücken (Sitzend)</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/grhhxy9Aln4" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=grhhxy9Aln4" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Setze dich auf die Bettkante. Bauch anspannen für einen geraden Rücken. Hanteln auf Schulterhöhe bringen (Handflächen nach vorne). Hanteln über den Kopf drücken, bis sie sich fast berühren. Langsam wieder auf Ohrhöhe absenken.</p>
-    </div>
-</div>
-
-<div id="modal-skull" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-skull')">&times;</span>
-        <h2>Trizeps-Stirndrücken (Skullcrusher)</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/jO2Jl9eZpXk" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=jO2Jl9eZpXk" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Flach auf die Matte legen. Hanteln mit gestreckten Armen senkrecht über die Schultern halten (Handflächen zueinander). Nur die Ellbogen beugen und die Hanteln kontrolliert Richtung Ohren/Stirn absenken. Wieder nach oben drücken. Oberarme bleiben starr!</p>
-    </div>
-</div>
-
-<div id="modal-lateral" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-lateral')">&times;</span>
-        <h2>Seitheben (Stehend)</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/nnH63icHYXY" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=nnH63icHYXY" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Hüftbreiter Stand, Knie leicht gebeugt. Hanteln seitlich am Körper. Arme leicht im Ellbogen anwinkeln und die Hanteln seitlich bis auf Schulterhöhe anheben. Der kleine Finger zeigt am obersten Punkt leicht nach oben. Kontrolliert ablassen.</p>
-    </div>
-</div>
-
-<div id="modal-goblet" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-goblet')">&times;</span>
-        <h2>Goblet Kniebeugen</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/gm4ln6PO4rc" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=gm4ln6PO4rc" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Eine schwere Kurzhantel vertikal mit beiden Händen vor der Brust halten. Schulterbreiter Stand. Gesäß nach hinten unten schieben, als würdest du dich hinsetzen. Rücken gerade lassen. So tief wie möglich gehen, dann explosiv aus den Fersen wieder hochdrücken.</p>
-    </div>
-</div>
-
-<div id="modal-row" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-row')">&times;</span>
-        <h2>Einarmiges Rudern</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/OG5S3x7T8QQ" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=OG5S3x7T8QQ" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Mit einer Hand und dem gleichseitigen Knie auf dem Bett abstützen. Der Rücken ist parallel zum Boden und gerade. Die andere Hand hält die Hantel. Ziehe die Hantel eng am Körper Richtung Hüfte nach oben. Schulterblatt am obersten Punkt zusammenziehen.</p>
-    </div>
-</div>
-
-<div id="modal-rdl" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-rdl')">&times;</span>
-        <h2>Rumänisches Kreuzheben</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/_DhDkij1vxY" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=_DhDkij1vxY" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Stehend, Hanteln vor den Oberschenkeln. Knie nur leicht beugen (und in diesem Winkel fixieren). Brust raus, Rücken extrem gerade. Schiebe die Hüfte nach hinten, während die Hanteln nah an den Beinen nach unten gleiten, bis du eine Dehnung im Beinbeuger spürst. Durch Anspannen des Pos wieder aufrichten.</p>
-    </div>
-</div>
-
-<div id="modal-lunges" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-lunges')">&times;</span>
-        <h2>Ausfallschritte</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/G4gAK8Bhyro" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=G4gAK8Bhyro" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Hanteln seitlich halten. Einen großen Schritt nach vorne machen. Den Körper senkrecht absenken, bis das hintere Knie fast den Boden berührt. Das vordere Knie sollte nicht weit über die Fußspitze hinausragen. Über die Ferse des vorderen Fußes wieder in die Ausgangsposition drücken.</p>
-    </div>
-</div>
-
-<div id="modal-curls" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-curls')">&times;</span>
-        <h2>Kurzhantel Bizepscurls</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/3OZ2MT_5r3Q" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=3OZ2MT_5r3Q" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Aufrechter Stand. Hanteln seitlich halten. Die Handflächen bei der Aufwärtsbewegung nach oben drehen (Supination). Nur die Unterarme bewegen sich, die Ellbogen bleiben eng am Körper und bewegen sich nicht mit nach vorne. Langsam wieder ablassen.</p>
-    </div>
-</div>
-
-<div id="modal-calves" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-calves')">&times;</span>
-        <h2>Wadenheben (Stehend)</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/8sT7Ne3Kzwc" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=8sT7Ne3Kzwc" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Hanteln seitlich halten. Wenn möglich mit den Fußballen auf eine Kante (z.B. ein dickes Buch oder Brett) stellen, ansonsten flach auf dem Boden. Drücke dich so hoch wie möglich auf die Zehenspitzen. 1 Sekunde halten, dann langsam absenken.</p>
-    </div>
-</div>
-
-<div id="modal-forearms" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-forearms')">&times;</span>
-        <h2>Unterarm-Curls</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/VGkF2NTtao0" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=VGkF2NTtao0" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Knie dich vor das Bett. Lege die Unterarme so auf das Bett, dass die Handgelenke über die Kante hängen. Handflächen zeigen nach oben. Hanteln nur aus dem Handgelenk so weit wie möglich nach unten abrollen lassen und dann wieder einrollen. (Optional auch mit Handflächen nach unten für den Strecker).</p>
-    </div>
-</div>
-
-<div id="modal-twist" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-twist')">&times;</span>
-        <h2>Russian Twist</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/qYym5L-B9hs" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=qYym5L-B9hs" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Auf die Matte setzen, Oberkörper leicht nach hinten lehnen, Beine anwinkeln (Fersen leicht in der Luft). Eine Kurzhantel mit beiden Händen vor der Brust halten. Den Oberkörper kontrolliert nach links und rechts rotieren, sodass die Hantel fast den Boden neben dir berührt.</p>
-    </div>
-</div>
-
-<div id="modal-crunches" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('modal-crunches')">&times;</span>
-        <h2>Crunches</h2>
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/cQ5JKgEZCU4" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <a href="https://www.youtube.com/watch?v=cQ5JKgEZCU4" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
-        <p><strong>Ausführung:</strong> Auf den Rücken legen, Beine anstellen. Hände leicht an die Schläfen (nicht am Nacken ziehen!). Den oberen Rücken und die Schultern durch Kontraktion der Bauchmuskeln vom Boden abheben. Der untere Rücken bleibt auf der Matte. Kurz halten und langsam ablegen.</p>
-    </div>
-</div>
+<div id="modal-floorpress" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-floorpress')">&times;</span><h2>Floor Press</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/Bx4QPVH-J1g"></iframe></div><p>Rücken auf die Matte, Beine anwinkeln. Hanteln hochdrücken bis Arme fast gestreckt. Absetzen bis Ellbogen Boden berühren.</p></div></div>
+<div id="modal-shoulder" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-shoulder')">&times;</span><h2>Schulterdrücken</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/grhhxy9Aln4"></iframe></div><p>Sitzend, gerader Rücken. Hanteln von Schulterhöhe über den Kopf drücken.</p></div></div>
+<div id="modal-skull" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-skull')">&times;</span><h2>Stirndrücken</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/jO2Jl9eZpXk"></iframe></div><p>Liegend, Oberarme starr senkrecht halten. Hanteln zur Stirn absenken und wieder hoch.</p></div></div>
+<div id="modal-lateral" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-lateral')">&times;</span><h2>Seitheben</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/nnH63icHYXY"></iframe></div><p>Stand, Arme leicht gebeugt seitlich bis auf Schulterhöhe heben.</p></div></div>
+<div id="modal-goblet" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-goblet')">&times;</span><h2>Goblet Kniebeugen</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/gm4ln6PO4rc"></iframe></div><p>Hantel vor der Brust halten. Tief in die Hocke gehen, Rücken gerade.</p></div></div>
+<div id="modal-row" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-row')">&times;</span><h2>Einarmiges Rudern</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/OG5S3x7T8QQ"></iframe></div><p>Abstützen, Rücken parallel zum Boden. Hantel zur Hüfte ziehen.</p></div></div>
+<div id="modal-rdl" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-rdl')">&times;</span><h2>R. Kreuzheben</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/_DhDkij1vxY"></iframe></div><p>Beine fast gestreckt. Hüfte nach hinten schieben, Hanteln an den Beinen absenken.</p></div></div>
+<div id="modal-lunges" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-lunges')">&times;</span><h2>Ausfallschritte</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/G4gAK8Bhyro"></iframe></div><p>Großer Schritt vorwärts. Knie absenken bis fast zum Boden.</p></div></div>
+<div id="modal-curls" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-curls')">&times;</span><h2>Bizepscurls</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/3OZ2MT_5r3Q"></iframe></div><p>Ellbogen am Körper fixieren. Hanteln kontrolliert beugen.</p></div></div>
+<div id="modal-calves" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-calves')">&times;</span><h2>Wadenheben</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/8sT7Ne3Kzwc"></iframe></div><p>Auf Zehenspitzen drücken, kurz halten, langsam absenken.</p></div></div>
+<div id="modal-forearms" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-forearms')">&times;</span><h2>Unterarm-Curls</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/VGkF2NTtao0"></iframe></div><p>Unterarme auflegen. Hanteln nur aus den Handgelenken beugen.</p></div></div>
+<div id="modal-twist" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-twist')">&times;</span><h2>Russian Twist</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/qYym5L-B9hs"></iframe></div><p>Sitzend, Beine in der Luft. Oberkörper mit Hantel nach links/rechts rotieren.</p></div></div>
+<div id="modal-crunches" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('modal-crunches')">&times;</span><h2>Crunches</h2><div class="video-container"><iframe src="https://www.youtube.com/embed/cQ5JKgEZCU4"></iframe></div><p>Bauchmuskeln anspannen, Schultern leicht vom Boden abheben.</p></div></div>
 
 <script>
-    function openModal(id) {
-        document.getElementById(id).style.display = 'flex';
-    }
-    function closeModal(id) {
-        document.getElementById(id).style.display = 'none';
-        let iframe = document.getElementById(id).querySelector('iframe');
-        if (iframe) {
-            let src = iframe.src;
-            iframe.src = src;
+    const map = {
+        A: ['floorpress','shoulder','skull','lateral'],
+        B: ['goblet','row','rdl','lunges','curls'],
+        C: ['calves','forearms','twist','crunches']
+    };
+    
+    const exNames = {
+        floorpress: 'Floor Press', shoulder: 'Schulterdrücken', skull: 'Stirndrücken', lateral: 'Seitheben',
+        goblet: 'Goblet Kniebeugen', row: 'Einarmiges Rudern', rdl: 'R. Kreuzheben', lunges: 'Ausfallschritte',
+        curls: 'Bizepscurls', calves: 'Wadenheben', forearms: 'Unterarm-Curls', twist: 'Russian Twist', crunches: 'Crunches'
+    };
+
+    let historyLog = JSON.parse(localStorage.getItem('workout_history')) || {};
+    let weights = JSON.parse(localStorage.getItem('workout_weights')) || { gk1: 0, gk2: 0, gk3: 0 };
+    let timerInt;
+    let audioCtx;
+    const today = new Date().toISOString().split('T')[0];
+
+    function init() {
+        const d = new Date().getDay();
+        document.getElementById('day-'+d).classList.add('active');
+
+        document.getElementById('input-gk1').value = weights.gk1 || '';
+        document.getElementById('input-gk2').value = weights.gk2 || '';
+        document.getElementById('input-gk3').value = weights.gk3 || '';
+        
+        applyWeightsToUI();
+
+        if(historyLog[today]) {
+            Object.keys(historyLog[today].sets).forEach(id => {
+                const s = historyLog[today].sets[id];
+                const el = document.getElementById('set-'+id);
+                if(el) el.innerText = s;
+                if(s > 0) {
+                    const card = document.getElementById('card-'+id);
+                    if(card) card.classList.add('done');
+                }
+            });
         }
+        updateStats();
+        renderHistory();
     }
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = "none";
-            let iframe = event.target.querySelector('iframe');
-            if (iframe) {
-                let src = iframe.src;
-                iframe.src = src;
+
+    function saveWeights() {
+        weights.gk1 = document.getElementById('input-gk1').value;
+        weights.gk2 = document.getElementById('input-gk2').value;
+        weights.gk3 = document.getElementById('input-gk3').value;
+        localStorage.setItem('workout_weights', JSON.stringify(weights));
+        applyWeightsToUI();
+        renderHistory();
+    }
+
+    function applyWeightsToUI() {
+        document.querySelectorAll('.badge.b-gk1').forEach(b => b.innerText = `GK 1 (${weights.gk1 || 0}kg)`);
+        document.querySelectorAll('.badge.b-gk2').forEach(b => b.innerText = `GK 2 (${weights.gk2 || 0}kg)`);
+        document.querySelectorAll('.badge.b-gk3').forEach(b => b.innerText = `GK 3 (${weights.gk3 || 0}kg)`);
+    }
+
+    function updateSets(id, routine, delta) {
+        if(!historyLog[today]) {
+            historyLog[today] = { routine: routine, sets: {} };
+        } else if (historyLog[today].routine !== routine) {
+            if(!confirm(`Heute bereits ${historyLog[today].routine} gestartet. Wechseln?`)) return;
+            historyLog[today] = { routine: routine, sets: {} };
+            document.querySelectorAll('.set-controls span').forEach(el => el.innerText = '0');
+            document.querySelectorAll('.card').forEach(el => el.classList.remove('done'));
+        }
+
+        let curr = historyLog[today].sets[id] || 0;
+        curr = Math.max(0, curr + delta);
+        historyLog[today].sets[id] = curr;
+        
+        localStorage.setItem('workout_history', JSON.stringify(historyLog));
+        document.getElementById('set-'+id).innerText = curr;
+        
+        const card = document.getElementById('card-'+id);
+        if(curr > 0) card.classList.add('done');
+        else card.classList.remove('done');
+
+        updateStats();
+        renderHistory();
+    }
+
+    function updateStats() {
+        Object.keys(map).forEach(r => {
+            const total = map[r].length;
+            let done = 0;
+            if (historyLog[today] && historyLog[today].routine === r) {
+                done = Object.keys(historyLog[today].sets).filter(id => historyLog[today].sets[id] > 0).length;
             }
-        }
+            document.getElementById('pt-'+r).innerText = `${done} / ${total} Übungen absolviert`;
+            document.getElementById('pb-'+r).style.width = (done / total * 100) + '%';
+        });
     }
+
+    function renderHistory() {
+        const hList = document.getElementById('history-list');
+        hList.innerHTML = '';
+        const sorted = Object.keys(historyLog).sort((a,b) => b.localeCompare(a));
+        
+        if(sorted.length === 0) {
+            hList.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:20px 0;">Keine Einträge.</p>';
+            return;
+        }
+
+        sorted.forEach(dateStr => {
+            const d = new Date(dateStr);
+            const days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+            const title = `${days[d.getDay()]}, ${d.toLocaleDateString('de-DE')} - Routine ${historyLog[dateStr].routine}`;
+            const sets = historyLog[dateStr].sets;
+            const active = Object.keys(sets).filter(k => sets[k] > 0);
+            
+            if(active.length === 0) return;
+            
+            const li = active.map(k => {
+                const cardEl = document.getElementById('card-'+k);
+                let wInfo = "";
+                if(cardEl) {
+                    const badge = cardEl.querySelector('.badge');
+                    if(badge.classList.contains('b-gk1')) wInfo = ` (${weights.gk1}kg)`;
+                    else if(badge.classList.contains('b-gk2')) wInfo = ` (${weights.gk2}kg)`;
+                    else if(badge.classList.contains('b-gk3')) wInfo = ` (${weights.gk3}kg)`;
+                }
+                return `<li style="margin-bottom:4px;"><strong>${sets[k]} Sätze</strong> ${exNames[k]}${wInfo}</li>`;
+            }).join('');
+            hList.innerHTML += `<div class="history-entry"><div class="history-date">${title}</div><ul class="history-details">${li}</ul></div>`;
+        });
+    }
+
+    function resetProgress() {
+        if(!confirm("Gesamten Verlauf löschen?")) return;
+        historyLog = {};
+        localStorage.removeItem('workout_history');
+        document.querySelectorAll('.set-controls span').forEach(el => el.innerText = '0');
+        document.querySelectorAll('.card').forEach(el => el.classList.remove('done'));
+        updateStats();
+        renderHistory();
+    }
+
+    function openRoutine(r) {
+        document.getElementById('view-dashboard').classList.remove('active');
+        document.querySelectorAll('.routine-wrapper').forEach(e => e.classList.remove('active'));
+        document.getElementById('view-routine').classList.add('active');
+        document.getElementById('routine-'+r).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function showDashboard() {
+        document.getElementById('view-routine').classList.remove('active');
+        document.getElementById('view-dashboard').classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function playBeep() {
+        if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        gain.gain.setValueAtTime(1, audioCtx.currentTime);
+        osc.start(); gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 1);
+        osc.stop(audioCtx.currentTime + 1);
+    }
+
+    function updateDisplay(sec) {
+        const m = Math.floor(sec / 60).toString().padStart(2, '0');
+        const s = (sec % 60).toString().padStart(2, '0');
+        document.getElementById('time-display').innerText = m + ':' + s;
+    }
+
+    function startTimer(sec, btnRef) {
+        stopTimer();
+        document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
+        btnRef.classList.add('active');
+        let c = sec;
+        updateDisplay(c);
+        timerInt = setInterval(() => {
+            c--;
+            if(c < 0) { stopTimer(); playBeep(); return; }
+            updateDisplay(c);
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timerInt);
+        document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
+        updateDisplay(0);
+    }
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) {
+        const m = document.getElementById(id);
+        m.style.display = 'none';
+        const i = m.querySelector('iframe');
+        if(i) i.src = i.src;
+    }
+    window.onclick = function(e) { if(e.target.classList.contains('modal')) closeModal(e.target.id); }
+
+    window.onload = init;
 </script>
 
 </body>
