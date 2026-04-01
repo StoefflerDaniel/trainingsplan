@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Hantel-Trainingsplan (6x pro Woche)</title>
+<style>
+    :root {
+        --bg: #121212;
+        --card-bg: #1e1e1e;
+        --text: #ffffff;
+        --text-muted: #a0a0a0;
+        --primary: #bb86fc;
+        --secondary: #03dac6;
+        --danger: #cf6679;
+        --gk1: #ff5252;
+        --gk2: #ffb142;
+        --gk3: #33d9b2;
+        --bw: #84817a;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        line-height: 1.6;
+    }
+    h1, h2, h3 {
+        text-align: center;
+        color: var(--primary);
+    }
+    .schedule {
+        background: var(--card-bg);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .routine-container {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    .routine {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+    }
+    .routine h2 {
+        border-bottom: 2px solid var(--primary);
+        padding-bottom: 10px;
+        margin-top: 0;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .card {
+        background: #2a2a2a;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid var(--primary);
+        display: flex;
+        flex-direction: column;
+    }
+    .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #000;
+        width: max-content;
+    }
+    .b-gk1 { background-color: var(--gk1); }
+    .b-gk2 { background-color: var(--gk2); }
+    .b-gk3 { background-color: var(--gk3); }
+    .b-bw { background-color: var(--bw); color: #fff; }
+    .card h3 { margin: 0 0 10px 0; color: #fff; text-align: left; font-size: 1.1rem; }
+    .card p { margin: 5px 0; font-size: 0.9rem; color: var(--text-muted); flex-grow: 1; }
+    .btn {
+        margin-top: 15px;
+        padding: 10px;
+        background: var(--primary);
+        color: #000;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    .btn:hover { background: #9d4edd; }
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    .modal-content {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 600px;
+        width: 100%;
+        position: relative;
+    }
+    .close {
+        position: absolute;
+        top: 10px; right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--danger);
+    }
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+    .video-container iframe {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+    }
+    .yt-link {
+        color: var(--secondary);
+        display: block;
+        margin-bottom: 15px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+    .yt-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>Dein Hantel-Trainingsplan</h1>
+
+<div class="schedule">
+    <strong>Wochenplan:</strong> Mo: Routine A | Di: Routine B | Mi: Routine C | Do: Routine A | Fr: Routine B | Sa: Routine C | So: Pause
+</div>
+
+<div class="routine-container">
+    <div class="routine">
+        <h2>Routine A (Pflicht) - Push (Brust, Schultern, Trizeps)</h2>
+        <p style="text-align:center; color: var(--text-muted);">Gewichte werden nur 2x gewechselt: Schwer -> Mittel -> Leicht</p>
+        <div class="grid">
+            <div class="card">
+                <span class="badge b-gk1">Gewichtsklasse 1</span>
+                <h3>1. Kurzhantel Floor Press</h3>
+                <p>Muskeln: Brust, Trizeps</p>
+                <p>Sätze: 3-4 | Wdh: 8-12</p>
+                <button class="btn" onclick="openModal('modal-floorpress')">Details & Video</button>
+            </div>
+            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
+                <span class="badge b-gk2">Gewichtsklasse 2</span>
+                <h3>2. Schulterdrücken (auf Bett)</h3>
+                <p>Muskeln: Vordere/Seitliche Schulter</p>
+                <p>Sätze: 3 | Wdh: 8-12</p>
+                <button class="btn" onclick="openModal('modal-shoulder')">Details & Video</button>
+            </div>
+            <div class="card">
+                <span class="badge b-gk2">Gewichtsklasse 2</span>
+                <h3>3. Trizeps-Stirndrücken (Matte)</h3>
+                <p>Muskeln: Trizeps</p>
+                <p>Sätze: 3 | Wdh: 10-15</p>
+                <button class="btn" onclick="openModal('modal-skull')">Details & Video</button>
+            </div>
+            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
+                <span class="badge b-gk3">Gewichtsklasse 3</span>
+                <h3>4. Seitheben (Stehend)</h3>
+                <p>Muskeln: Seitliche Schulter</p>
+                <p>Sätze: 3-4 | Wdh: 12-15</p>
+                <button class="btn" onclick="openModal('modal-lateral')">Details & Video</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="routine">
+        <h2>Routine B (Pflicht) - Pull & Beine (Rücken, Beine, Bizeps)</h2>
+        <p style="text-align:center; color: var(--text-muted);">Gewichte werden nur 1x gewechselt: Schwer -> Mittel</p>
+        <div class="grid">
+            <div class="card">
+                <span class="badge b-gk1">Gewichtsklasse 1</span>
+                <h3>1. Goblet Kniebeugen</h3>
+                <p>Muskeln: Oberschenkel, Po</p>
+                <p>Sätze: 3-4 | Wdh: 8-12</p>
+                <button class="btn" onclick="openModal('modal-goblet')">Details & Video</button>
+            </div>
+            <div class="card">
+                <span class="badge b-gk1">Gewichtsklasse 1</span>
+                <h3>2. Einarmiges Rudern (Bett)</h3>
+                <p>Muskeln: Breiter Rückenmuskel</p>
+                <p>Sätze: 3-4 | Wdh: 8-12 pro Seite</p>
+                <button class="btn" onclick="openModal('modal-row')">Details & Video</button>
+            </div>
+            <div class="card">
+                <span class="badge b-gk1">Gewichtsklasse 1</span>
+                <h3>3. Rumänisches Kreuzheben</h3>
+                <p>Muskeln: Beinbeuger, Unterer Rücken</p>
+                <p>Sätze: 3 | Wdh: 10-12</p>
+                <button class="btn" onclick="openModal('modal-rdl')">Details & Video</button>
+            </div>
+            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
+                <span class="badge b-gk2">Gewichtsklasse 2</span>
+                <h3>4. Ausfallschritte (Stehend)</h3>
+                <p>Muskeln: Beine gesamt</p>
+                <p>Sätze: 3 | Wdh: 10-12 pro Bein</p>
+                <button class="btn" onclick="openModal('modal-lunges')">Details & Video</button>
+            </div>
+            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
+                <span class="badge b-gk2">Gewichtsklasse 2</span>
+                <h3>5. Kurzhantel Bizepscurls</h3>
+                <p>Muskeln: Bizeps</p>
+                <p>Sätze: 3 | Wdh: 10-15</p>
+                <button class="btn" onclick="openModal('modal-curls')">Details & Video</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="routine">
+        <h2>Routine C (Optional) - Das i-Tüpfelchen (Waden, Bauch, Unterarme)</h2>
+        <p style="text-align:center; color: var(--text-muted);">Gewichte werden nur 1x gewechselt: Schwer -> Mittel</p>
+        <div class="grid">
+            <div class="card">
+                <span class="badge b-gk1">Gewichtsklasse 1</span>
+                <h3>1. Wadenheben (Stehend)</h3>
+                <p>Muskeln: Waden</p>
+                <p>Sätze: 4 | Wdh: 15-20</p>
+                <button class="btn" onclick="openModal('modal-calves')">Details & Video</button>
+            </div>
+            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
+                <span class="badge b-gk2">Gewichtsklasse 2</span>
+                <h3>2. Unterarm-Curls (Bett)</h3>
+                <p>Muskeln: Unterarme</p>
+                <p>Sätze: 3 | Wdh: 15-20</p>
+                <button class="btn" onclick="openModal('modal-forearms')">Details & Video</button>
+            </div>
+            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
+                <span class="badge b-gk2">Gewichtsklasse 2</span>
+                <h3>3. Russian Twist</h3>
+                <p>Muskeln: Seitliche Bauchmuskeln</p>
+                <p>Sätze: 3 | Wdh: 15-20 pro Seite</p>
+                <button class="btn" onclick="openModal('modal-twist')">Details & Video</button>
+            </div>
+            <div class="card" style="border-top: 1px dashed #555; margin-top: 10px; padding-top: 20px;">
+                <span class="badge b-bw">Kein Gewicht</span>
+                <h3>4. Crunches (Matte)</h3>
+                <p>Muskeln: Gerade Bauchmuskeln</p>
+                <p>Sätze: 3 | Wdh: Bis Muskelversagen</p>
+                <button class="btn" onclick="openModal('modal-crunches')">Details & Video</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-floorpress" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-floorpress')">&times;</span>
+        <h2>Kurzhantel Floor Press</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/Bx4QPVH-J1g" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=Bx4QPVH-J1g" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Lege dich mit dem Rücken auf die Matte. Beine anwinkeln, Füße flach auf den Boden. Hanteln auf Brusthöhe halten. Drücke die Hanteln nach oben, bis die Arme fast gestreckt sind. Kontrolliert ablassen, bis die Trizeps den Boden leicht berühren. Kein Schwung holen.</p>
+    </div>
+</div>
+
+<div id="modal-shoulder" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-shoulder')">&times;</span>
+        <h2>Schulterdrücken (Sitzend)</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/grhhxy9Aln4" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=grhhxy9Aln4" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Setze dich auf die Bettkante. Bauch anspannen für einen geraden Rücken. Hanteln auf Schulterhöhe bringen (Handflächen nach vorne). Hanteln über den Kopf drücken, bis sie sich fast berühren. Langsam wieder auf Ohrhöhe absenken.</p>
+    </div>
+</div>
+
+<div id="modal-skull" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-skull')">&times;</span>
+        <h2>Trizeps-Stirndrücken (Skullcrusher)</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/jO2Jl9eZpXk" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=jO2Jl9eZpXk" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Flach auf die Matte legen. Hanteln mit gestreckten Armen senkrecht über die Schultern halten (Handflächen zueinander). Nur die Ellbogen beugen und die Hanteln kontrolliert Richtung Ohren/Stirn absenken. Wieder nach oben drücken. Oberarme bleiben starr!</p>
+    </div>
+</div>
+
+<div id="modal-lateral" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-lateral')">&times;</span>
+        <h2>Seitheben (Stehend)</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/nnH63icHYXY" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=nnH63icHYXY" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Hüftbreiter Stand, Knie leicht gebeugt. Hanteln seitlich am Körper. Arme leicht im Ellbogen anwinkeln und die Hanteln seitlich bis auf Schulterhöhe anheben. Der kleine Finger zeigt am obersten Punkt leicht nach oben. Kontrolliert ablassen.</p>
+    </div>
+</div>
+
+<div id="modal-goblet" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-goblet')">&times;</span>
+        <h2>Goblet Kniebeugen</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/gm4ln6PO4rc" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=gm4ln6PO4rc" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Eine schwere Kurzhantel vertikal mit beiden Händen vor der Brust halten. Schulterbreiter Stand. Gesäß nach hinten unten schieben, als würdest du dich hinsetzen. Rücken gerade lassen. So tief wie möglich gehen, dann explosiv aus den Fersen wieder hochdrücken.</p>
+    </div>
+</div>
+
+<div id="modal-row" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-row')">&times;</span>
+        <h2>Einarmiges Rudern</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/OG5S3x7T8QQ" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=OG5S3x7T8QQ" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Mit einer Hand und dem gleichseitigen Knie auf dem Bett abstützen. Der Rücken ist parallel zum Boden und gerade. Die andere Hand hält die Hantel. Ziehe die Hantel eng am Körper Richtung Hüfte nach oben. Schulterblatt am obersten Punkt zusammenziehen.</p>
+    </div>
+</div>
+
+<div id="modal-rdl" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-rdl')">&times;</span>
+        <h2>Rumänisches Kreuzheben</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/_DhDkij1vxY" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=_DhDkij1vxY" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Stehend, Hanteln vor den Oberschenkeln. Knie nur leicht beugen (und in diesem Winkel fixieren). Brust raus, Rücken extrem gerade. Schiebe die Hüfte nach hinten, während die Hanteln nah an den Beinen nach unten gleiten, bis du eine Dehnung im Beinbeuger spürst. Durch Anspannen des Pos wieder aufrichten.</p>
+    </div>
+</div>
+
+<div id="modal-lunges" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-lunges')">&times;</span>
+        <h2>Ausfallschritte</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/G4gAK8Bhyro" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=G4gAK8Bhyro" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Hanteln seitlich halten. Einen großen Schritt nach vorne machen. Den Körper senkrecht absenken, bis das hintere Knie fast den Boden berührt. Das vordere Knie sollte nicht weit über die Fußspitze hinausragen. Über die Ferse des vorderen Fußes wieder in die Ausgangsposition drücken.</p>
+    </div>
+</div>
+
+<div id="modal-curls" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-curls')">&times;</span>
+        <h2>Kurzhantel Bizepscurls</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/3OZ2MT_5r3Q" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=3OZ2MT_5r3Q" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Aufrechter Stand. Hanteln seitlich halten. Die Handflächen bei der Aufwärtsbewegung nach oben drehen (Supination). Nur die Unterarme bewegen sich, die Ellbogen bleiben eng am Körper und bewegen sich nicht mit nach vorne. Langsam wieder ablassen.</p>
+    </div>
+</div>
+
+<div id="modal-calves" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-calves')">&times;</span>
+        <h2>Wadenheben (Stehend)</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/8sT7Ne3Kzwc" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=8sT7Ne3Kzwc" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Hanteln seitlich halten. Wenn möglich mit den Fußballen auf eine Kante (z.B. ein dickes Buch oder Brett) stellen, ansonsten flach auf dem Boden. Drücke dich so hoch wie möglich auf die Zehenspitzen. 1 Sekunde halten, dann langsam absenken.</p>
+    </div>
+</div>
+
+<div id="modal-forearms" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-forearms')">&times;</span>
+        <h2>Unterarm-Curls</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/VGkF2NTtao0" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=VGkF2NTtao0" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Knie dich vor das Bett. Lege die Unterarme so auf das Bett, dass die Handgelenke über die Kante hängen. Handflächen zeigen nach oben. Hanteln nur aus dem Handgelenk so weit wie möglich nach unten abrollen lassen und dann wieder einrollen. (Optional auch mit Handflächen nach unten für den Strecker).</p>
+    </div>
+</div>
+
+<div id="modal-twist" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-twist')">&times;</span>
+        <h2>Russian Twist</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/qYym5L-B9hs" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=qYym5L-B9hs" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Auf die Matte setzen, Oberkörper leicht nach hinten lehnen, Beine anwinkeln (Fersen leicht in der Luft). Eine Kurzhantel mit beiden Händen vor der Brust halten. Den Oberkörper kontrolliert nach links und rechts rotieren, sodass die Hantel fast den Boden neben dir berührt.</p>
+    </div>
+</div>
+
+<div id="modal-crunches" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal-crunches')">&times;</span>
+        <h2>Crunches</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/cQ5JKgEZCU4" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=cQ5JKgEZCU4" target="_blank" class="yt-link">Falls das Video nicht lädt: Direkt auf YouTube öffnen</a>
+        <p><strong>Ausführung:</strong> Auf den Rücken legen, Beine anstellen. Hände leicht an die Schläfen (nicht am Nacken ziehen!). Den oberen Rücken und die Schultern durch Kontraktion der Bauchmuskeln vom Boden abheben. Der untere Rücken bleibt auf der Matte. Kurz halten und langsam ablegen.</p>
+    </div>
+</div>
+
+<script>
+    function openModal(id) {
+        document.getElementById(id).style.display = 'flex';
+    }
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+        let iframe = document.getElementById(id).querySelector('iframe');
+        if (iframe) {
+            let src = iframe.src;
+            iframe.src = src;
+        }
+    }
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = "none";
+            let iframe = event.target.querySelector('iframe');
+            if (iframe) {
+                let src = iframe.src;
+                iframe.src = src;
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
