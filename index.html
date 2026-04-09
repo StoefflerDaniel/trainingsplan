@@ -164,7 +164,11 @@
         width: 70px; background: #333; border: 1px solid #444; color: white; padding: 6px; border-radius: 4px; text-align: center; font-weight: bold;
     }
     .w-hist {
-        font-size: 0.8rem; color: var(--secondary); margin-bottom: 15px; min-height: 1.2rem;
+        font-size: 0.8rem; color: var(--secondary); margin-bottom: 10px; min-height: 1.2rem;
+    }
+    .note-area {
+        width: 100%; background: #1a1a1a; border: 1px solid #333; color: #ddd; padding: 8px; border-radius: 6px; 
+        font-size: 0.85rem; resize: vertical; margin-bottom: 15px; box-sizing: border-box;
     }
 
     .controls-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: auto; background: #1e1e1e; padding: 10px; border-radius: 8px; }
@@ -257,6 +261,7 @@
                 <h3>1. Floor Press</h3><p>Ziel: 3-4 Sätze | 6-10 Wdh.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-floorpress" placeholder="kg" onchange="saveExWeight('floorpress')"><span>kg</span></div>
                 <div class="w-hist" id="wh-floorpress"></div>
+                <textarea class="note-area" id="n-floorpress" placeholder="Notizen zur Übung..." onchange="saveExNote('floorpress')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('floorpress','A',-1)">-</button><span id="set-floorpress">0</span><button onclick="updateSets('floorpress','A',1)">+</button></div>
@@ -267,6 +272,7 @@
                 <h3>2. Schulterdrücken</h3><p>Ziel: 3 Sätze | 8-12 Wdh.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-shoulder" placeholder="kg" onchange="saveExWeight('shoulder')"><span>kg</span></div>
                 <div class="w-hist" id="wh-shoulder"></div>
+                <textarea class="note-area" id="n-shoulder" placeholder="Notizen zur Übung..." onchange="saveExNote('shoulder')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('shoulder','A',-1)">-</button><span id="set-shoulder">0</span><button onclick="updateSets('shoulder','A',1)">+</button></div>
@@ -277,6 +283,7 @@
                 <h3>3. Stirndrücken</h3><p>Ziel: 3 Sätze | 10-15 Wdh.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-skull" placeholder="kg" onchange="saveExWeight('skull')"><span>kg</span></div>
                 <div class="w-hist" id="wh-skull"></div>
+                <textarea class="note-area" id="n-skull" placeholder="Notizen zur Übung..." onchange="saveExNote('skull')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('skull','A',-1)">-</button><span id="set-skull">0</span><button onclick="updateSets('skull','A',1)">+</button></div>
@@ -287,6 +294,7 @@
                 <h3>4. Seitheben</h3><p>Ziel: 3-4 Sätze | 12-15 Wdh.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-lateral" placeholder="kg" onchange="saveExWeight('lateral')"><span>kg</span></div>
                 <div class="w-hist" id="wh-lateral"></div>
+                <textarea class="note-area" id="n-lateral" placeholder="Notizen zur Übung..." onchange="saveExNote('lateral')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('lateral','A',-1)">-</button><span id="set-lateral">0</span><button onclick="updateSets('lateral','A',1)">+</button></div>
@@ -303,6 +311,7 @@
                 <h3>1. Goblet Kniebeugen</h3><p>Ziel: 3-4 Sätze | 6-10 Wdh.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-goblet" placeholder="kg" onchange="saveExWeight('goblet')"><span>kg</span></div>
                 <div class="w-hist" id="wh-goblet"></div>
+                <textarea class="note-area" id="n-goblet" placeholder="Notizen zur Übung..." onchange="saveExNote('goblet')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('goblet','B',-1)">-</button><span id="set-goblet">0</span><button onclick="updateSets('goblet','B',1)">+</button></div>
@@ -313,6 +322,7 @@
                 <h3>2. Einarmiges Rudern</h3><p>Ziel: 3-4 Sätze | 6-10 / S.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-row" placeholder="kg" onchange="saveExWeight('row')"><span>kg</span></div>
                 <div class="w-hist" id="wh-row"></div>
+                <textarea class="note-area" id="n-row" placeholder="Notizen zur Übung..." onchange="saveExNote('row')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('row','B',-1)">-</button><span id="set-row">0</span><button onclick="updateSets('row','B',1)">+</button></div>
@@ -323,6 +333,7 @@
                 <h3>3. R. Kreuzheben</h3><p>Ziel: 3 Sätze | 8-12 Wdh.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-rdl" placeholder="kg" onchange="saveExWeight('rdl')"><span>kg</span></div>
                 <div class="w-hist" id="wh-rdl"></div>
+                <textarea class="note-area" id="n-rdl" placeholder="Notizen zur Übung..." onchange="saveExNote('rdl')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('rdl','B',-1)">-</button><span id="set-rdl">0</span><button onclick="updateSets('rdl','B',1)">+</button></div>
@@ -333,6 +344,7 @@
                 <h3>4. Ausfallschritte</h3><p>Ziel: 3 Sätze | 10-12 / B.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-lunges" placeholder="kg" onchange="saveExWeight('lunges')"><span>kg</span></div>
                 <div class="w-hist" id="wh-lunges"></div>
+                <textarea class="note-area" id="n-lunges" placeholder="Notizen zur Übung..." onchange="saveExNote('lunges')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('lunges','B',-1)">-</button><span id="set-lunges">0</span><button onclick="updateSets('lunges','B',1)">+</button></div>
@@ -343,6 +355,7 @@
                 <h3>5. Bizepscurls</h3><p>Ziel: 3 Sätze | 10-15 Wdh.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-curls" placeholder="kg" onchange="saveExWeight('curls')"><span>kg</span></div>
                 <div class="w-hist" id="wh-curls"></div>
+                <textarea class="note-area" id="n-curls" placeholder="Notizen zur Übung..." onchange="saveExNote('curls')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('curls','B',-1)">-</button><span id="set-curls">0</span><button onclick="updateSets('curls','B',1)">+</button></div>
@@ -359,6 +372,7 @@
                 <h3>1. Wadenheben</h3><p>Ziel: 4 Sätze | 15-20 Wdh.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-calves" placeholder="kg" onchange="saveExWeight('calves')"><span>kg</span></div>
                 <div class="w-hist" id="wh-calves"></div>
+                <textarea class="note-area" id="n-calves" placeholder="Notizen zur Übung..." onchange="saveExNote('calves')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('calves','C',-1)">-</button><span id="set-calves">0</span><button onclick="updateSets('calves','C',1)">+</button></div>
@@ -369,6 +383,7 @@
                 <h3>2. Unterarm-Curls</h3><p>Ziel: 3 Sätze | 15-20 Wdh.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-forearms" placeholder="kg" onchange="saveExWeight('forearms')"><span>kg</span></div>
                 <div class="w-hist" id="wh-forearms"></div>
+                <textarea class="note-area" id="n-forearms" placeholder="Notizen zur Übung..." onchange="saveExNote('forearms')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('forearms','C',-1)">-</button><span id="set-forearms">0</span><button onclick="updateSets('forearms','C',1)">+</button></div>
@@ -379,6 +394,7 @@
                 <h3>3. Russian Twist</h3><p>Ziel: 3 Sätze | 15-20 / S.</p>
                 <div class="weight-control"><input type="number" step="0.5" id="w-twist" placeholder="kg" onchange="saveExWeight('twist')"><span>kg</span></div>
                 <div class="w-hist" id="wh-twist"></div>
+                <textarea class="note-area" id="n-twist" placeholder="Notizen zur Übung..." onchange="saveExNote('twist')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('twist','C',-1)">-</button><span id="set-twist">0</span><button onclick="updateSets('twist','C',1)">+</button></div>
@@ -387,8 +403,7 @@
             <div class="card" id="card-crunches">
                 <div class="header-row"><span class="badge b-bw">BW</span><button class="btn" style="margin:0; padding:5px 10px;" onclick="openModal('modal-crunches')">Details</button></div>
                 <h3>4. Crunches</h3><p>Ziel: 3 Sätze | Max Wdh.</p>
-                <div class="weight-control"><input type="number" step="0.5" id="w-crunches" placeholder="kg" onchange="saveExWeight('crunches')" style="display:none;"></div>
-                <div class="w-hist" id="wh-crunches"></div>
+                <textarea class="note-area" id="n-crunches" placeholder="Notizen zur Übung..." onchange="saveExNote('crunches')"></textarea>
                 <div class="controls-wrapper">
                     <span class="controls-label">Sätze:</span>
                     <div class="set-controls"><button onclick="updateSets('crunches','C',-1)">-</button><span id="set-crunches">0</span><button onclick="updateSets('crunches','C',1)">+</button></div>
@@ -426,7 +441,6 @@
         B: ['goblet','row','rdl','lunges','curls'],
         C: ['calves','forearms','twist','crunches']
     };
-    
     const exNames = {
         floorpress: 'Floor Press', shoulder: 'Schulterdrücken', skull: 'Stirndrücken', lateral: 'Seitheben',
         goblet: 'Goblet Kniebeugen', row: 'Einarmiges Rudern', rdl: 'R. Kreuzheben', lunges: 'Ausfallschritte',
@@ -436,6 +450,7 @@
     let historyLog = JSON.parse(localStorage.getItem('workout_history')) || {};
     let exWeights = JSON.parse(localStorage.getItem('workout_exWeights')) || {};
     let weightHistory = JSON.parse(localStorage.getItem('workout_weightHistory')) || {};
+    let exNotes = JSON.parse(localStorage.getItem('workout_exNotes')) || {};
     
     let timerInt;
     let audioCtx;
@@ -448,6 +463,10 @@
         Object.keys(exNames).forEach(id => {
             const inp = document.getElementById('w-'+id);
             if(inp && exWeights[id]) inp.value = exWeights[id];
+            
+            const noteField = document.getElementById('n-'+id);
+            if(noteField && exNotes[id]) noteField.value = exNotes[id];
+            
             updateHistText(id);
         });
 
@@ -470,78 +489,59 @@
         const val = document.getElementById('w-'+id).value;
         if(!val) return;
         const newW = parseFloat(val);
-        
         if(exWeights[id] !== newW) {
             if(!weightHistory[id]) weightHistory[id] = [];
             let lastEntry = weightHistory[id].length > 0 ? weightHistory[id][weightHistory[id].length-1] : null;
-            
-            if(lastEntry && lastEntry.date === today) {
-                lastEntry.w = newW;
-            } else {
-                weightHistory[id].push({date: today, w: newW});
-            }
-            
+            if(lastEntry && lastEntry.date === today) lastEntry.w = newW;
+            else weightHistory[id].push({date: today, w: newW});
             exWeights[id] = newW;
             localStorage.setItem('workout_exWeights', JSON.stringify(exWeights));
             localStorage.setItem('workout_weightHistory', JSON.stringify(weightHistory));
-            
             updateHistText(id);
             renderHistory();
         }
+    }
+
+    function saveExNote(id) {
+        const val = document.getElementById('n-'+id).value;
+        exNotes[id] = val;
+        localStorage.setItem('workout_exNotes', JSON.stringify(exNotes));
     }
 
     function updateHistText(id) {
         const el = document.getElementById('wh-'+id);
         if(!el) return;
         const hist = weightHistory[id];
-        
         if(!hist || hist.length === 0) { el.innerText = ''; return; }
-        
         if(hist.length === 1) {
             el.innerText = `Aktuelles Gewicht: ${hist[0].w} kg seit ${formatDate(hist[0].date)}`;
         } else {
             const curr = hist[hist.length-1];
             let prev = hist[hist.length-2];
             let i = hist.length-2;
-            while(i >= 0 && hist[i].w === curr.w) {
-                prev = hist[i-1];
-                i--;
-            }
-            
-            if(prev) {
-                el.innerText = `Gewicht geändert von ${prev.w} kg zu ${curr.w} kg am ${formatDate(curr.date)}`;
-            } else {
-                el.innerText = `Aktuelles Gewicht: ${curr.w} kg seit ${formatDate(curr.date)}`;
-            }
+            while(i >= 0 && hist[i].w === curr.w) { prev = hist[i-1]; i--; }
+            if(prev) el.innerText = `Gewicht geändert von ${prev.w} kg zu ${curr.w} kg am ${formatDate(curr.date)}`;
+            else el.innerText = `Aktuelles Gewicht: ${curr.w} kg seit ${formatDate(curr.date)}`;
         }
     }
 
-    function formatDate(dStr) {
-        const d = new Date(dStr);
-        return d.toLocaleDateString('de-DE');
-    }
+    function formatDate(dStr) { return new Date(dStr).toLocaleDateString('de-DE'); }
 
     function updateSets(id, routine, delta) {
-        if(!historyLog[today]) {
-            historyLog[today] = { routine: routine, sets: {} };
-        } else if (historyLog[today].routine !== routine) {
+        if(!historyLog[today]) { historyLog[today] = { routine: routine, sets: {} }; } 
+        else if (historyLog[today].routine !== routine) {
             if(!confirm(`Heute bereits ${historyLog[today].routine} gestartet. Wechseln?`)) return;
             historyLog[today] = { routine: routine, sets: {} };
             document.querySelectorAll('.set-controls span').forEach(el => el.innerText = '0');
             document.querySelectorAll('.card').forEach(el => el.classList.remove('done'));
         }
-
         let curr = historyLog[today].sets[id] || 0;
         curr = Math.max(0, curr + delta);
         historyLog[today].sets[id] = curr;
-        
         localStorage.setItem('workout_history', JSON.stringify(historyLog));
         document.getElementById('set-'+id).innerText = curr;
-        
         const card = document.getElementById('card-'+id);
-        if(curr > 0) card.classList.add('done');
-        else card.classList.remove('done');
-
+        if(curr > 0) card.classList.add('done'); else card.classList.remove('done');
         updateStats();
         renderHistory();
     }
@@ -562,21 +562,17 @@
         const hList = document.getElementById('history-list');
         hList.innerHTML = '';
         const sorted = Object.keys(historyLog).sort((a,b) => b.localeCompare(a));
-        
         if(sorted.length === 0) {
             hList.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:20px 0;">Keine Einträge.</p>';
             return;
         }
-
         sorted.forEach(dateStr => {
             const d = new Date(dateStr);
             const days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
             const title = `${days[d.getDay()]}, ${d.toLocaleDateString('de-DE')} - Routine ${historyLog[dateStr].routine}`;
             const sets = historyLog[dateStr].sets;
             const active = Object.keys(sets).filter(k => sets[k] > 0);
-            
             if(active.length === 0) return;
-            
             const li = active.map(k => {
                 let wInfo = exWeights[k] && k !== 'crunches' ? ` (${exWeights[k]}kg)` : "";
                 return `<li style="margin-bottom:4px;"><strong>${sets[k]} Sätze</strong> ${exNames[k]}${wInfo}</li>`;
@@ -586,21 +582,15 @@
     }
 
     function resetProgress() {
-        if(!confirm("Gesamten Verlauf löschen?")) return;
-        historyLog = {};
-        exWeights = {};
-        weightHistory = {};
-        localStorage.removeItem('workout_history');
-        localStorage.removeItem('workout_exWeights');
-        localStorage.removeItem('workout_weightHistory');
-        
+        if(!confirm("Gesamten Verlauf und Notizen löschen?")) return;
+        historyLog = {}; exWeights = {}; weightHistory = {}; exNotes = {};
+        localStorage.clear();
         document.querySelectorAll('.set-controls span').forEach(el => el.innerText = '0');
         document.querySelectorAll('.card').forEach(el => el.classList.remove('done'));
         document.querySelectorAll('input[type="number"]').forEach(el => el.value = '');
+        document.querySelectorAll('textarea').forEach(el => el.value = '');
         document.querySelectorAll('.w-hist').forEach(el => el.innerText = '');
-        
-        updateStats();
-        renderHistory();
+        updateStats(); renderHistory();
     }
 
     function openRoutine(r) {
@@ -641,18 +631,12 @@
         let c = sec;
         updateDisplay(c);
         timerInt = setInterval(() => {
-            c--;
-            if(c < 0) { stopTimer(); playBeep(); return; }
+            c--; if(c < 0) { stopTimer(); playBeep(); return; }
             updateDisplay(c);
         }, 1000);
     }
 
-    function stopTimer() {
-        clearInterval(timerInt);
-        document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
-        updateDisplay(0);
-    }
-
+    function stopTimer() { clearInterval(timerInt); document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active')); updateDisplay(0); }
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) {
         const m = document.getElementById(id);
@@ -661,7 +645,6 @@
         if(i) i.src = i.src;
     }
     window.onclick = function(e) { if(e.target.classList.contains('modal')) closeModal(e.target.id); }
-
     window.onload = init;
 </script>
 
